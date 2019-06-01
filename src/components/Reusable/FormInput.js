@@ -13,12 +13,16 @@ export default class FormInput extends Component {
 
     render() {
         return (
-            <TextInput style={{height: responsiveHeight(6.5),margin:4,padding:4,borderColor:'#000',borderWidth:1,borderRadius: 6,  }} value={this.state.value} placeholder={this.props.placeholder} onChangeText={(text) => this.sendValueBackToParent(text)} />
+            <TextInput secureTextEntry={this.cleanPlaceHolder() === 'password' ? true : false } style={{height: responsiveHeight(6.5), width:'94%',margin:4,padding:4,borderColor:'#000',borderWidth:1,borderRadius: 6,  }} value={this.state.value} placeholder={this.props.placeholder} onChangeText={(text) => this.sendValueBackToParent(text)} />
         )
     }
 
     sendValueBackToParent = text => {
         this.setState({value: text});
         this.props.callBack(this.props.placeholder.trim().replace(/\s+/g, '').toLowerCase(),text);
+    }
+
+    cleanPlaceHolder = () => {
+        return this.props.placeholder.trim().replace(/\s+/g, '').toLowerCase();
     }
 }

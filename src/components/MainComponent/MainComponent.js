@@ -10,6 +10,7 @@ import ProductsByCatComponent from '../ProductsByCat/ProductsByCatComponent';
 import SettingsComponent from '../myaccount/SettingsComponent';
 import LoginDetailsComponent from '../Login/LoginDetailsComponent';
 import ChangePasswordComponent from '../myaccount/ChangePasswordComponent';
+import LoginScreen from '../Login/LoginScreen';
 export default class MainComponent extends React.Component{
 
 
@@ -17,14 +18,29 @@ export default class MainComponent extends React.Component{
         const osBasedToolbar = Platform.OS === 'android' ? <MainToolbar /> : <MainToolbar/>;
     return (
       <View>
+
         {/* <ProductsComponent /> */}
-        <Product />
+        {/* <Product /> */}
         {/* <CategoriesComponent /> */}
         {/* <ProductsByCatComponent /> */}
         {/* <SettingsComponent /> */}
         {/* <LoginDetailsComponent /> */}
         {/* <ChangePasswordComponent /> */}
+        
+        <LoginScreen />
       </View>
     )
   }
 }
+
+const style = StyleSheet.create({
+
+  container: {
+  
+      flex:1,
+      alignItems: 'center',
+      justifyContent: 'center',
+      backgroundColor: 'blue'
+  }
+  
+  });
