@@ -5,15 +5,31 @@ import { responsiveHeight, responsiveWidth, responsiveFontSize } from 'react-nat
 import FormInput from '../Reusable/FormInput';
 import MainToolbar from '../Toolbar/MainToolbar';
 import AwesomeButton from "react-native-really-awesome-button";
+import Storage from '../../Lib/Storage';
 export default class LoginDetailsComponent extends Component {
     state = {
         fullname: '',
         email: '',
-        value: 'irfan ullah',
+        isLoggedIn: false,
+        user: []
     }
     callBack = (which,text) => {
-        this.setState({which:text});
-        console.log(which+ " : "+text);
+        if(which === 'fullname'){
+            this.setState({'fullname':text});
+
+        }else if(which === 'email'){
+            this.setState({'email':text});
+        }
+    }
+    async componentDidMount(){
+        await Storage.isLoggedIn(this);
+        if(this.state.isLoggedIn){
+            console.log('Logged in ');
+            this.setState({'email': this.state.user.email});
+            console.log(this.state.user.email);
+        }else {
+            alert('You are not logged in.');
+        }
     }
 
     render() {

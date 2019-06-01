@@ -7,6 +7,7 @@ import Button from 'apsl-react-native-button';
 import FormInput from '../../components/Reusable/FormInput';
 import Base from '../../Lib/Base';
 import AsyncStorage from '@react-native-community/async-storage';
+import Storage from '../../Lib/Storage';
 
 export default class LoginScreen extends Component {
 
@@ -26,14 +27,17 @@ export default class LoginScreen extends Component {
     }
 
     async componentDidMount(){
-        try{
-            let u = await AsyncStorage.getItem('@user');
-            let ju = JSON.parse(u);
-            console.log(ju.token);
-        }catch(e){
-            console.log(e);
+        // try{
+        //     let u = await AsyncStorage.getItem('@user');
+        //     let ju = JSON.parse(u);
+        //     console.log(ju.token);
+        // }catch(e){
+        //     console.log(e);
 
-        }
+        // }
+
+        Storage.logout();
+
     }
 
     makeLoginRequest(){

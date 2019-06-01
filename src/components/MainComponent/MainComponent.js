@@ -24,10 +24,10 @@ export default class MainComponent extends React.Component{
         {/* <CategoriesComponent /> */}
         {/* <ProductsByCatComponent /> */}
         {/* <SettingsComponent /> */}
-        {/* <LoginDetailsComponent /> */}
+        <LoginDetailsComponent />
         {/* <ChangePasswordComponent /> */}
         
-        <LoginScreen />
+        {/* <LoginScreen /> */}
       </View>
     )
   }
