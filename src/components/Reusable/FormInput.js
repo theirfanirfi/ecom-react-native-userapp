@@ -6,6 +6,8 @@ export default class FormInput extends Component {
     static = {
         placeholder: PropTypes.string,
         callBack: PropTypes.func,
+        value: PropTypes.string,
+        ispassword: PropTypes.bool,
     }
     state = {
         value: '',
@@ -13,7 +15,9 @@ export default class FormInput extends Component {
 
     render() {
         return (
-            <TextInput secureTextEntry={this.cleanPlaceHolder() === 'password' ? true : false } style={{height: responsiveHeight(6.5), width:'94%',margin:4,padding:4,borderColor:'#000',borderWidth:1,borderRadius: 6,  }} value={this.state.value} placeholder={this.props.placeholder} onChangeText={(text) => this.sendValueBackToParent(text)} />
+            <TextInput secureTextEntry={this.props.ispassword === true ? true : false } 
+            style={{height: responsiveHeight(6.5), width:'94%',margin:4,padding:4,borderColor:'#000',borderWidth:1,borderRadius: 6,  }} 
+            value={this.props.value !== null ? this.props.value : this.state.value} placeholder={this.props.placeholder} onChangeText={(text) => this.sendValueBackToParent(text)} />
         )
     }
 

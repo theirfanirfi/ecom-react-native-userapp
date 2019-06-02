@@ -26,6 +26,18 @@ export default {
             console.log(e);
             return false;
         }
+    },
+
+    async updateUser(context,user){
+        try{
+            await AsyncStorage.setItem('@user',JSON.stringify(user));
+            await AsyncStorage.setItem('@username', user.name);
+            console.log('From storage file: '+user.name);
+            return true;
+        }catch(e){
+            console.log(e);
+            return false;
+        }
     }
 
 

@@ -87,7 +87,7 @@ export default class LoginScreen extends Component {
             <View style={styles.container}>
                 <Text style={{  color:'black',fontSize:24 }}>Login</Text>
                 <FormInput placeholder="Email" callBack={this.callBack} />
-                <FormInput placeholder="Password" callBack={this.callBack} />
+                <FormInput ispassword={true} placeholder="Password" callBack={this.callBack} />
                 <Button onPress={this.login} style={{ backgroundColor: '#34D27C', marginTop:responsiveHeight(2),width: responsiveWidth(35),alignSelf:'center',color:'#fff'}} textStyle={{fontSize: 18}}>
                     <Icon name="lock" type="material" iconStyle={{ color:'#fff' }}/>
                     <Text style={{ color:'#fff' }}> Login</Text>

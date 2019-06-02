@@ -5,11 +5,14 @@ import { responsiveHeight, responsiveWidth, responsiveFontSize } from 'react-nat
 import PropTypes from 'prop-types'
 import Button from 'apsl-react-native-button'
 import NumericInput from 'react-native-numeric-input'
+import Cart from '../../Lib/Cart';
+import AsyncStorage from '@react-native-community/async-storage';
 
 export default class LoadProduct extends Component {
     constructor(props){
         super(props);
         this.order = [];
+        this.inc = 0;
     }
 
     static propTypes = {
@@ -26,17 +29,20 @@ export default class LoadProduct extends Component {
         console.log("Product id: "+product);
     }
 
-    addToCart = () => {
+    async addToCart() {
+       // this.order.length = 0;
         o = {
             'quantity_ordered': this.state.numberOfProducts,
             'product_id': this.state.product_id
         }
-
-        a = this.order.push(o);
-        a = JSON.stringify(o);
-        console.log(a);
-        console.log(JSON.parse(a).product_id);
-        
+        this.order.push(o);
+        //await AsyncStorage.removeItem('@cart');
+       let isAdded = Cart.addToCart(this,JSON.stringify(o));
+        // if(isAdded){
+        //     alert('added');
+        // }else {
+        //     alert('not added');
+        // }        
     }
 
     componentDidMount(){
@@ -49,19 +55,20 @@ export default class LoadProduct extends Component {
             <View style={{ flex:1,flexDirection: 'column' }}>
             <Image source={{  uri: this.props.product.product_image}} style={style.image}/>
             <Text style={style.product_title}>{this.props.product.product_name}</Text>
-
-                    <Text style={{  alignSelf: 'flex-start' }} style={style.pricing}>${this.props.product.product_price} </Text>
-
+            <Text style={{  alignSelf: 'flex-start' }} style={style.pricing}>${this.props.product.product_price} </Text>
+            
+            <TouchableOpacity onPress={() => this.addToWhishList(this.props.product.product_id)}>
                     <Icon 
                     name='favorite-border'
                     type='material'
                     iconStyle={{ marginRight: 12, alignSelf: 'flex-end' }}
                     size={responsiveWidth(7)}
-                    onPress={() => this.addToWhishList(this.props.product.product_id)}
+
                     />
+            </TouchableOpacity>
+
                     <Text style={{  alignSelf: 'flex-start' }} style={style.pricing}>Stock: {this.props.product.available} </Text>
-                    {/* <NumericInput type='up-down' onChange={value => console.log(value)} minValue={1} maxValue={this.props.product.available} /> */}
-                 
+
                     <NumericInput 
                     containerStyle={{ alignSelf:'center',marginTop:responsiveHeight(2) }}
                     value={this.state.numberOfProducts} 
@@ -79,7 +86,7 @@ export default class LoadProduct extends Component {
                     rightButtonBackgroundColor='#34D27C' 
                     leftButtonBackgroundColor='#34D27C'/>
 
-                    <Button onPress={this.addToCart} style={{ backgroundColor: '#34D27C', marginTop:responsiveHeight(2),width: responsiveWidth(35),alignSelf:'center',color:'#fff'}} textStyle={{fontSize: 18}}>
+                    <Button onPress={() => this.addToCart()} style={{ backgroundColor: '#34D27C', marginTop:responsiveHeight(2),width: responsiveWidth(35),alignSelf:'center',color:'#fff'}} textStyle={{fontSize: 18}}>
                     <Icon name="shopping-cart" type="material" iconStyle={{ color:'#fff' }}/>
                     <Text style={{ color:'#fff' }}> Add to Cart</Text>
                     </Button>
