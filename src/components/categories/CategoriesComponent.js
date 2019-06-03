@@ -64,6 +64,8 @@ export default class CategoriesComponent extends Component {
                 />
                 )
             }}
+            style={{ marginBottom:responsiveHeight(10), }}
+
             />
         )
     }

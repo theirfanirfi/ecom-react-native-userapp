@@ -6,15 +6,16 @@ export default {
         await AsyncStorage.getItem('@cart')
         .then(cart => {
             if(cart !== null){
-               let orders = JSON.parse(cart);
-               let pro = JSON.parse(product);
+               let orders = []
+               orders = JSON.parse(cart);
                 //console.log(JSON.stringify(cart));
                 let matched = false;
                 orders.some(o => {
-                    if(o.product_id === pro[0].product_id ){
+                    if(o.product_id === product.product_id ){
                         let index = orders.indexOf(o);
                         orders.splice(index,1);
-                        orders.push(pro);
+                        orders.push(product);
+
                         try {
                             AsyncStorage.setItem('@cart',JSON.stringify(orders));
                             matched = true;
@@ -30,11 +31,11 @@ export default {
                     //     console.log('not matched :'+pro[0].product_id+ " : "+o.product_id);
                     // }
                 });
-                
+
                 if(matched){
                     console.log('matched block');
                 }else {
-                    orders.push(pro);
+                    orders.push(product);
                     try {
                         AsyncStorage.setItem('@cart',JSON.stringify(orders));
                         console.log('not matched block set item done');
@@ -44,12 +45,14 @@ export default {
                     //console.log('not matched block');
                 }
 
-            AsyncStorage.getItem('@cart').then(cart => console.log(cart));
+            AsyncStorage.getItem('@cart').then(cart => console.log(JSON.stringify(cart)));
             }else {
+                let orders1 = []
+                orders1.push(product);
                 try {
-                 AsyncStorage.setItem('@cart',product);                    
+                 AsyncStorage.setItem('@cart',JSON.stringify(orders1));                    
                 } catch (error) {
-                console.log(error);
+                console.log("NULL BLOCK ERROR: "+error);
                     
                 }
                 console.log(' null');

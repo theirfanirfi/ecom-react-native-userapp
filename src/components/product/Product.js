@@ -19,7 +19,7 @@ export default class Product extends Component {
 
     async componentDidMount(){
         let BASE_URL = Base.getBaseUrl();
-        let id = 7;
+        let id = 9;
         return fetch(BASE_URL+'product/'+id).then(response => response.json()).then((res) => {
             if(res.isError){
                 alert(res.message);

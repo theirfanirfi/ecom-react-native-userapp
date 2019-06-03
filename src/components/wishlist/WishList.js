@@ -5,29 +5,33 @@ import { responsiveHeight, responsiveWidth, responsiveFontSize } from 'react-nat
 import { Icon,SearchBar } from 'react-native-elements'
 import Base from '../../Lib/Base';
 import Storage from '../../Lib/Storage';
-export default class ProductsComponent extends Component {
+export default class WishList extends Component {
     constructor(props){
         super(props);
         this.arrayHolder = [];
+
     }
 
     state = {
         data: [],
         value: '',
-        user:[],
+        user: [],
         isLoggedIn: false,
     }
 
 
     async componentDidMount(){
-       await Storage.isLoggedIn(this);        
+        await Storage.isLoggedIn(this);
        let BASE_URL = Base.getBaseUrl();
-       return fetch(BASE_URL+'getproducts').then((response) => response.json()).then((res) => {
-           this.setState({data: res.proudcts});
-          // console.log(res);
-           this.arrayHolder = res.proudcts;
+       if(this.state.isLoggedIn){
+       return fetch(BASE_URL+'user/wishlist?token='+this.state.user.token).then((response) => response.json()).then((res) => {
+           this.setState({data: res.products});
+           //console.log(res.products);
+           this.arrayHolder = res.products;
        });
-
+    }else {
+        alert('You are not logged in to perform this action.');
+    }
     }
 
     async addToWhishList(product) {

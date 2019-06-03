@@ -35,9 +35,10 @@ export default class LoadProduct extends Component {
             'quantity_ordered': this.state.numberOfProducts,
             'product_id': this.state.product_id
         }
-        this.order.push(o);
-        //await AsyncStorage.removeItem('@cart');
-       let isAdded = Cart.addToCart(this,JSON.stringify(o));
+
+    //     this.order.push(o);
+        // await AsyncStorage.removeItem('@cart');
+       let isAdded = Cart.addToCart(this,o);
         // if(isAdded){
         //     alert('added');
         // }else {
