@@ -14,6 +14,7 @@ import LoginScreen from '../Login/LoginScreen';
 import BottomNav from '../../components/MainComponent/BottomNav';
 import WishList from '../../components/wishlist/WishList';
 import { responsiveHeight, responsiveWidth, responsiveFontSize } from 'react-native-responsive-dimensions';
+import CartComponent from '../Cart/CartComponent';
 
 
 export default class MainComponent extends React.Component{
@@ -44,7 +45,7 @@ export default class MainComponent extends React.Component{
         }else if(this.state.activeTab === 'account'){
           loadComponent = <SettingsComponent />;
         }else if(this.state.activeTab === 'cart'){
-
+          loadComponent = <CartComponent />
         }else if(this.state.activeTab === 'wishlist'){
           loadComponent = <WishList />
         }

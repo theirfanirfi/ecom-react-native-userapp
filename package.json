@@ -13,6 +13,7 @@
     "node-sass": "^4.12.0",
     "react": "16.8.3",
     "react-native": "0.59.8",
+    "react-native-base64": "0.0.2",
     "react-native-elements": "^1.1.0",
     "react-native-material-bottom-navigation": "^1.0.3",
     "react-native-numeric-input": "^1.8.0",

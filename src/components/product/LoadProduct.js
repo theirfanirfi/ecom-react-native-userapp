@@ -7,6 +7,7 @@ import Button from 'apsl-react-native-button'
 import NumericInput from 'react-native-numeric-input'
 import Cart from '../../Lib/Cart';
 import AsyncStorage from '@react-native-community/async-storage';
+import Base from '../../Lib/Base';
 
 export default class LoadProduct extends Component {
     constructor(props){
@@ -16,34 +17,58 @@ export default class LoadProduct extends Component {
     }
 
     static propTypes = {
-        product: PropTypes.object.isRequired
+        product: PropTypes.object.isRequired,
+
     }
 
     state = {
         numberOfProducts: 1,
         product_id: '',
+        user: [],
+        isLoggedIn: false,
 
     }
 
-    addToWhishList = product => {
-        console.log("Product id: "+product);
+    async addToWhishList(context,product) {
+        let BASE_URL = Base.getBaseUrl();
+        if(this.state.isLoggedIn){
+        return fetch(BASE_URL+'user/addtowishlist?token='+this.state.user.token+'&pid='+product).then((response) => response.json()).then((res) => {
+            if(res.isError){
+                alert(res.message);
+            }else if(res.isAdded){
+                console.log('is ref: '+context.name);
+               // alert(res.message);
+            }else if(res.isDeleted){
+
+
+                console.log('is ref: '+context.name);
+//                alert(res.message);
+
+            }
+        });
+     }else {
+         alert('You are not logged in to perform this action.');
+     }
     }
 
     async addToCart() {
        // this.order.length = 0;
         o = {
             'quantity_ordered': this.state.numberOfProducts,
-            'product_id': this.state.product_id
+            'product_id': this.state.product_id,
+            'product_price': this.props.product.product_price,
+            'product_image': this.props.product.product_image,
+            'product_name': this.props.product.product_name,
         }
 
     //     this.order.push(o);
-        // await AsyncStorage.removeItem('@cart');
+       //  await AsyncStorage.removeItem('@cart');
        let isAdded = Cart.addToCart(this,o);
-        // if(isAdded){
-        //     alert('added');
-        // }else {
-        //     alert('not added');
-        // }        
+        if(isAdded){
+            alert('Product Added to cart.');
+        }else {
+            alert('Error occurred in adding the product to cart.');
+        }        
     }
 
     componentDidMount(){
@@ -58,12 +83,13 @@ export default class LoadProduct extends Component {
             <Text style={style.product_title}>{this.props.product.product_name}</Text>
             <Text style={{  alignSelf: 'flex-start' }} style={style.pricing}>${this.props.product.product_price} </Text>
             
-            <TouchableOpacity onPress={() => this.addToWhishList(this.props.product.product_id)}>
+            <TouchableOpacity >
                     <Icon 
                     name='favorite-border'
                     type='material'
                     iconStyle={{ marginRight: 12, alignSelf: 'flex-end' }}
                     size={responsiveWidth(7)}
+                    onPress={() => this.addToWhishList(this.state.product_id)}
 
                     />
             </TouchableOpacity>

@@ -38,6 +38,21 @@ export default {
             console.log(e);
             return false;
         }
+    },
+
+    async returnCart(context){
+        try {
+            await AsyncStorage.getItem('@cart').then(item => JSON.parse(item))
+            .then(res => {
+                context.setState({
+                    'products': res,
+                });
+            });
+            
+        } catch (error) {
+            console.log(error);
+
+        }
     }
 
 

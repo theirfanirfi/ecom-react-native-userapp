@@ -59,5 +59,59 @@ export default {
 
             }
         })
-    }
+    },
+
+    async emptyCart(context){
+        try {
+        await AsyncStorage.removeItem('@cart');
+        } catch (error) {
+            return false;
+        }
+
+    },
+
+    async removeProductFromCart(context,product_id){
+        //await AsyncStorage.removeItem('@cart');
+        
+        await AsyncStorage.getItem('@cart')
+        .then(cart => {
+            if(cart !== null){
+               let orders = []
+               orders = JSON.parse(cart);
+                let removed = false;
+                orders.some(o => {
+                    console.log(o.product_id+ " : "+product_id);
+                    if(o.product_id === product_id ){
+                        let index = orders.indexOf(o);
+                        orders.splice(index,1);
+
+                        try {
+                            AsyncStorage.setItem('@cart',JSON.stringify(orders));
+                            removed = true;
+                       console.log('removed '+index);
+                            return o;
+                        } catch (error) {
+                        console.log('removed error '+error);
+                            
+                        }
+                    }
+                    
+                    else {
+                       // console.log('not matched :'+product_id);
+                    }
+                });
+
+                if(removed){
+            AsyncStorage.getItem('@cart').then(cart => { console.log(JSON.stringify(cart) );
+            context.setState({'products': JSON.parse(cart)});
+            });
+                    return true;
+                }else {
+                    conosle.log('not removed removedblock')
+                    return false;
+                }
+
+            }
+        });
+    },
 }

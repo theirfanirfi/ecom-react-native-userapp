@@ -5,62 +5,38 @@ import { responsiveHeight, responsiveWidth, responsiveFontSize } from 'react-nat
 import { Icon,SearchBar } from 'react-native-elements'
 import Base from '../../Lib/Base';
 import Storage from '../../Lib/Storage';
-export default class WishList extends Component {
+import Cart from '../../Lib/Cart';
+import base64 from 'react-native-base64'
+export default class CartComponent extends Component {
     constructor(props){
         super(props);
         this.arrayHolder = [];
-        this.myRef = React.createRef();
 
+        this.myRef = React.createRef();
     }
 
     state = {
         data: [],
         value: '',
-        user: [],
+        user:[],
         isLoggedIn: false,
+        isUnFav: false,
+        products:[],
+        pids: []
+
     }
 
 
     async componentDidMount(){
-        await Storage.isLoggedIn(this);
-       let BASE_URL = Base.getBaseUrl();
-       if(this.state.isLoggedIn){
-       return fetch(BASE_URL+'user/wishlist?token='+this.state.user.token).then((response) => response.json()).then((res) => {
-           this.setState({data: res.products});
-           //console.log(res.products);
-           this.arrayHolder = res.products;
-       });
-    }else {
-        alert('You are not logged in to perform this action.');
-    }
+       await Storage.isLoggedIn(this);    
+       //await Cart.emptyCart(this);
+       await Storage.returnCart(this);  
     }
 
- 
-
-    async addToWhishList(product) {
-        let BASE_URL = Base.getBaseUrl();
-        if(this.state.isLoggedIn){
-        return fetch(BASE_URL+'user/addtowishlist?token='+this.state.user.token+'&pid='+product).then((response) => response.json()).then((res) => {
-            if(res.isError){
-                alert(res.message);
-            }else if(res.isAdded){
-                alert(res.message);
-                this.setState({
-                    data: res.products
-                });
-            }else if(res.isDeleted){
-              alert(res.message);
-              this.setState({
-                data: res.products
-            });
-            }
-        });
-     }else {
-         alert('You are not logged in to perform this action.');
-     }
+    async removeFromCart(product_id) {
+        console.log(product_id)
+        await Cart.removeProductFromCart(this,product_id);
     }
-
-
 
 
     seachProducts = text => {
@@ -69,6 +45,7 @@ export default class WishList extends Component {
             const pro = `${item.product_name.toUpperCase()}`;
             const textData = text.toUpperCase();
              return pro.indexOf(textData) > -1; 
+
         });
         this.setState({value: text});
 
@@ -77,25 +54,21 @@ export default class WishList extends Component {
         });
       }
 
-      renderIconMode = (isFav) => {
-        //   if(this.state.i)
-        if(this.state.isLoggedIn && isFav === 'true'){
-         console.log('else item is : '+isFav);
-            return true;
-        }else {
-         console.log('else item is : '+isFav);
-            return false;
-        }
- 
- 
-       }
+      renderEmptyCartMessage(){
+          if(this.state.products.length == 0){
+              console.log('cart is empty');
+              return (<View style={{ justifyContent:'center',alignContent:'center',alignItems:'center',height:'100%'  }}><Text style={{ fontSize:24, alignSelf:'center' }}>You cart is empty.</Text></View>)
+          }else {
+              return this.renderCart();
+          }
+      }
 
-       renderWishList(){
-           return (
-               <View>
-                   
+      renderCart(){
+          return (
+              <View>
                 <FlatList
-                data={this.state.data}
+                data={this.state.products}
+                extraData={this.state.isUnFav}
                 renderItem={({ item,index }) => {
                     return (
                         <TouchableOpacity style={{ flex:1,flexDirection: 'column' }}>
@@ -103,20 +76,17 @@ export default class WishList extends Component {
                      <Image source={{  uri: item.product_image}} style={style.image}/>
                      <Text style={style.product_title}>{item.product_name}</Text>
                      <View style={{ flex:1,flexDirection: 'row', justifyContent: 'space-between' }} >
-                    <Text style={style.pricing}>${item.product_price} </Text>
-
+                    <Text style={style.pricing}>${item.product_price * item.quantity_ordered} </Text>
+                 
                     <Icon 
-                   name='favorite'
+                    name='delete-forever'
                     type='material'
-                    iconStyle={{flex:1,alignSelf: 'flex-end',marginRight: 12,color: 'red', }}
+                    iconStyle={{flex:1,alignSelf: 'flex-end',marginRight: 12, color: 'red', }}
                     size={responsiveWidth(6)}
-                    onPress={() => this.addToWhishList(item.product_id)}
-                    ref={this.myRef}
+                    onPress={() => this.removeFromCart(item.product_id)}
                     />
 
                     </View>
-
-                    <Text style={{ margin:4 }}>This is description of the product. you can read it any time whenever you want.</Text>
                     </View>
                     </TouchableOpacity>
 
@@ -138,26 +108,21 @@ export default class WishList extends Component {
                 }}
                 style={{ marginBottom:responsiveHeight(10), }}
                 />
-               </View>
-           )
-       }
+              </View>
+          )
+      }
 
-       renderEmptyWishListMessage(){
-           if(this.state.data.length == 0){
-            return (<View style={{ justifyContent:'center',alignContent:'center',alignItems:'center',height:'100%'  }}><Text style={{ fontSize:24, alignSelf:'center' }}>You WishList is empty.</Text></View>)
-        
-           }else {
-               return this.renderWishList();
-           }
-    }
+
 
     render() {
 
         return (
             <View>
-                {this.renderEmptyWishListMessage()}
-            </View>
+             {this.renderEmptyCartMessage()}
+             </View>
         )
+
+
     }
 }
 

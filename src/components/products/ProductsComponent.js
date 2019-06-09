@@ -9,6 +9,8 @@ export default class ProductsComponent extends Component {
     constructor(props){
         super(props);
         this.arrayHolder = [];
+
+        this.myRef = React.createRef();
     }
 
     state = {
@@ -16,27 +18,41 @@ export default class ProductsComponent extends Component {
         value: '',
         user:[],
         isLoggedIn: false,
+        isUnFav: false,
     }
 
 
     async componentDidMount(){
        await Storage.isLoggedIn(this);        
        let BASE_URL = Base.getBaseUrl();
+       if(this.state.isLoggedIn){
+        return fetch(BASE_URL+'user/getproducts?token='+this.state.user.token).then((response) => response.json()).then((res) => {
+            this.setState({data: res.proudcts});
+           // console.log(res);
+            this.arrayHolder = res.proudcts;
+        });
+       }else {
        return fetch(BASE_URL+'getproducts').then((response) => response.json()).then((res) => {
            this.setState({data: res.proudcts});
-          // console.log(res);
            this.arrayHolder = res.proudcts;
        });
+    }
 
     }
 
-    async addToWhishList(product) {
+    async addToWhishList(context,product) {
         let BASE_URL = Base.getBaseUrl();
         if(this.state.isLoggedIn){
-        return fetch(BASE_URL+'user/addtowishlist?token='+this.state.user.token+'&pid='+product).then((response) => response.json()).then((res) => {
+        return fetch(BASE_URL+'user/addtowishlisttab?token='+this.state.user.token+'&pid='+product).then((response) => response.json()).then((res) => {
             if(res.isError){
                 alert(res.message);
             }else if(res.isAdded){
+                this.setState({data: res.products});
+                this.arrayHolder = res.products;
+                alert(res.message);
+            }else if(res.isDeleted){
+                this.setState({data: res.products});
+                this.arrayHolder = res.products;
                 alert(res.message);
             }
         });
@@ -61,6 +77,18 @@ export default class ProductsComponent extends Component {
         });
       }
 
+      renderIconMode = (isFav) => {
+       //   if(this.state.i)
+       if(this.state.isLoggedIn && isFav === 'true'){
+           return true;
+       }else {
+        //console.log('else item is : '+isFav);
+           return false;
+       }
+
+
+      }
+
 
     render() {
 
@@ -68,6 +96,7 @@ export default class ProductsComponent extends Component {
 
                 <FlatList
                 data={this.state.data}
+                extraData={this.state.isUnFav}
                 renderItem={({ item,index }) => {
                     return (
                         <TouchableOpacity style={{ flex:1,flexDirection: 'column' }}>
@@ -76,13 +105,14 @@ export default class ProductsComponent extends Component {
                      <Text style={style.product_title}>{item.product_name}</Text>
                      <View style={{ flex:1,flexDirection: 'row', justifyContent: 'space-between' }} >
                     <Text style={style.pricing}>${item.product_price} </Text>
-
+                 
                     <Icon 
-                    name='favorite-border'
+                    name={this.renderIconMode(item.isFav) ? 'favorite': 'favorite-border'}
                     type='material'
-                    iconStyle={{flex:1,alignSelf: 'flex-end',marginRight: 12 }}
+                    iconStyle={{flex:1,alignSelf: 'flex-end',marginRight: 12, color: this.renderIconMode(item.isFav) ? 'red' : '#000', }}
                     size={responsiveWidth(6)}
-                    onPress={() => this.addToWhishList(item.product_id)}
+                    onPress={() => this.addToWhishList(this.myRef.current,item.product_id)}
+                    ref={this.myRef}
                     />
 
                     </View>
