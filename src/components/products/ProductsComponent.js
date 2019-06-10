@@ -9,10 +9,15 @@ export default class ProductsComponent extends Component {
     constructor(props){
         super(props);
         this.arrayHolder = [];
-
         this.myRef = React.createRef();
     }
 
+    static = {
+        productNavCallBack: PropTypes.func.isRequired,
+    }
+
+
+ 
     state = {
         data: [],
         value: '',
@@ -21,7 +26,10 @@ export default class ProductsComponent extends Component {
         isUnFav: false,
     }
 
-
+    callBackRes(product_id){
+        console.log(product_id)
+        this.props.navigation.navigate('ProductScreen', {product_id : product_id});
+    }
     async componentDidMount(){
        await Storage.isLoggedIn(this);        
        let BASE_URL = Base.getBaseUrl();
@@ -91,7 +99,7 @@ export default class ProductsComponent extends Component {
 
 
     render() {
-
+        // const {navigate} = this.props.navigation;
         return (
 
                 <FlatList
@@ -99,7 +107,7 @@ export default class ProductsComponent extends Component {
                 extraData={this.state.isUnFav}
                 renderItem={({ item,index }) => {
                     return (
-                        <TouchableOpacity style={{ flex:1,flexDirection: 'column' }}>
+                        <TouchableOpacity style={{ flex:1,flexDirection: 'column' }} onPress={() => this.callBackRes(item.product_id)}>
                     <View style={{ flex:1,flexDirection: 'column' }} >
                      <Image source={{  uri: item.product_image}} style={style.image}/>
                      <Text style={style.product_title}>{item.product_name}</Text>

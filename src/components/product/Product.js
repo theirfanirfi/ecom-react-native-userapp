@@ -4,6 +4,7 @@ import LoadProduct from './LoadProduct';
 import ProductNotFound from '../NotFound/ProductNotFound';
 import {View,Platform} from 'react-native';
 import Base from '../../Lib/Base';
+import Button from 'apsl-react-native-button'
 
 
 
@@ -17,9 +18,21 @@ export default class Product extends Component {
         }
     }
 
+    static navigationOptions = {
+        headerTitle: "Product",
+        headerRight: (
+          <Button
+            onPress={() => alert('This is a button!')}
+            title="Info"
+            color="#000"
+          >working</Button>
+        ),
+      }
+
     async componentDidMount(){
         let BASE_URL = Base.getBaseUrl();
-        let id = 9;
+        let id = this.props.navigation.getParam('product_id');
+        console.log(id)
         return fetch(BASE_URL+'product/'+id).then(response => response.json()).then((res) => {
             if(res.isError){
                 alert(res.message);
@@ -41,7 +54,7 @@ export default class Product extends Component {
         return (
 
             <View>
-                {osBasedToolbar}
+                {/* {osBasedToolbar} */}
                 {loadProduct}
             </View>
         )

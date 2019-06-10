@@ -40,7 +40,7 @@ export default class CategoriesComponent extends Component {
             data={this.state.categories}
             renderItem={({ item,index }) => {
                 return (
-                <TouchableOpacity>
+                <TouchableOpacity onPress={() => this.props.navigation.push('CatProducts',{cat_id: item.cat_id})}>
                     <View style={{ flexDirection:'row', alignContent: 'center' }}>
 
                  <Image source={{  uri: item.cat_image}} style={style.image}/>

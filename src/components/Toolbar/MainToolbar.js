@@ -18,7 +18,7 @@ export default class MainToolbar extends React.Component{
         <ToolbarAndroid
        // logo={require('./app_logo.png')}
         title={this.props.title}
-        actions={[{title: 'Settings', show: 'always'}]}
+        actions={[{title: 'Logout', show: 'always'}]}
         style={style.toolbar}
         onActionSelected={this.onActionSelected}
         />

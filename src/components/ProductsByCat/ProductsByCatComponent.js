@@ -18,7 +18,7 @@ export default class ProductsByCatComponent extends Component {
 
     async componentDidMount(){
        let BASE_URL = Base.getBaseUrl();
-       let cat_id = 1;
+       let cat_id = this.props.navigation.getParam('cat_id');
        return fetch(BASE_URL+'getcatproducts/'+cat_id).then((response) => response.json()).then((res) => {
            this.setState({data: res.products});
           // console.log(res);
@@ -55,7 +55,7 @@ export default class ProductsByCatComponent extends Component {
                 data={this.state.data}
                 renderItem={({ item,index }) => {
                     return (
-                        <TouchableOpacity style={{ flex:1,flexDirection: 'column' }}>
+                        <TouchableOpacity style={{ flex:1,flexDirection: 'column' }} onPress={() =>  this.props.navigation.navigate('ProductScreen', {'product_id' : item.product_id})}>
                     <View style={{ flex:1,flexDirection: 'column' }} >
                      <Image source={{  uri: item.product_image}} style={style.image}/>
                      <Text style={style.product_title}>{item.product_name}</Text>

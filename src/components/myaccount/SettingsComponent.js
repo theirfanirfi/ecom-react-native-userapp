@@ -33,9 +33,23 @@ export default class SettingsComponent extends Component {
         )
     }
 
+    gotoPages(which){
+        if(which === 'Login Details'){
+            this.props.navigation.push('LoginDetails');
+        }else if(which === 'Change Password'){
+            this.props.navigation.push('ChangePass');
+
+        }else if(which === 'Paid checkouts'){
+
+        }
+        else if(which === 'Unpaid checkouts'){
+
+        }
+    }
+
     renderItem = ({item,index}) => {
         return (
-            <TouchableOpacity>
+            <TouchableOpacity onPress={() => {this.gotoPages(item.key)}}>
 
             <View style={{ flex:1,flexDirection:'row',alignContent:'flex-start',margin:12 }}>
             {this.renderIcon(item)}

@@ -18,12 +18,33 @@ import CartComponent from '../Cart/CartComponent';
 
 
 export default class MainComponent extends React.Component{
+  constructor(props){
+    super(props);
+    const {navigate} = this.props.navigation;
+  }
+
+
+  component
+  static navigationOptions = {
+    header: null,
+  }
+
   state = {
     activeTab: 'products',
   }
   callBack = tab => {
     this.setState({activeTab: tab});
     console.log(tab);
+  }
+
+  navigationCallBackForProduct(product_id){
+    console.log(product_id);
+    //this.props.navigation.navigate('Product');
+    console.log(this.props.navigation)
+  }
+
+  componentDidMount(){
+    //console.log(this.props.navigation)
   }
 
   renderComponent = () => {
@@ -36,18 +57,19 @@ export default class MainComponent extends React.Component{
     }
   }
   render () {
+
         const osBasedToolbar = Platform.OS === 'android' ? <MainToolbar /> : <MainToolbar/>;
-        let loadComponent = <ProductsComponent />;
+        let loadComponent = <ProductsComponent productNavCallBack={this.navigationCallBackForProduct} navigation={this.props.navigation} />;
         if(this.state.activeTab === 'products'){
-          loadComponent = <ProductsComponent />;
+          loadComponent = <ProductsComponent productNavCallBack={this.navigationCallBackForProduct} navigation={this.props.navigation} />;
         }else if(this.state.activeTab === 'categories'){
-          loadComponent = <CategoriesComponent />;
+          loadComponent = <CategoriesComponent navigation={this.props.navigation} />;
         }else if(this.state.activeTab === 'account'){
-          loadComponent = <SettingsComponent />;
+          loadComponent = <SettingsComponent navigation={this.props.navigation}/>;
         }else if(this.state.activeTab === 'cart'){
-          loadComponent = <CartComponent />
+          loadComponent = <CartComponent navigation={this.props.navigation} />
         }else if(this.state.activeTab === 'wishlist'){
-          loadComponent = <WishList />
+          loadComponent = <WishList navigation={this.props.navigation} />
         }
     return (
       <View style={{ height:'100%' }}>

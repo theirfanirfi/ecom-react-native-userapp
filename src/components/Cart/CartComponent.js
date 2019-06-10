@@ -7,6 +7,7 @@ import Base from '../../Lib/Base';
 import Storage from '../../Lib/Storage';
 import Cart from '../../Lib/Cart';
 import base64 from 'react-native-base64'
+import CartToolbar from '../Toolbar/CartToolbar';
 export default class CartComponent extends Component {
     constructor(props){
         super(props);
@@ -71,7 +72,7 @@ export default class CartComponent extends Component {
                 extraData={this.state.isUnFav}
                 renderItem={({ item,index }) => {
                     return (
-                        <TouchableOpacity style={{ flex:1,flexDirection: 'column' }}>
+                        <TouchableOpacity style={{ flex:1,flexDirection: 'column' }} onPress={() =>  this.props.navigation.navigate('ProductScreen', {'product_id' : item.product_id})}>
                     <View style={{ flex:1,flexDirection: 'column' }} >
                      <Image source={{  uri: item.product_image}} style={style.image}/>
                      <Text style={style.product_title}>{item.product_name}</Text>
@@ -115,9 +116,10 @@ export default class CartComponent extends Component {
 
 
     render() {
-
+        const toolbar = Platform.OS === 'android' ? <CartToolbar title='Cart' /> : <CartToolbar title='Cart' />;
         return (
             <View>
+                {toolbar}
              {this.renderEmptyCartMessage()}
              </View>
         )
