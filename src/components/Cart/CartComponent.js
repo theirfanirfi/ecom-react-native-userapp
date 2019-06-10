@@ -116,7 +116,7 @@ export default class CartComponent extends Component {
 
 
     render() {
-        const toolbar = Platform.OS === 'android' ? <CartToolbar title='Cart' /> : <CartToolbar title='Cart' />;
+        const toolbar = Platform.OS === 'android' ? <CartToolbar title='Cart' navigation={this.props.navigation} /> : <CartToolbar title='Cart' navigation={this.props.navigation} />;
         return (
             <View>
                 {toolbar}

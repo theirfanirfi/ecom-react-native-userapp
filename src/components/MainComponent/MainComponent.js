@@ -13,8 +13,10 @@ import ChangePasswordComponent from '../myaccount/ChangePasswordComponent';
 import LoginScreen from '../Login/LoginScreen';
 import BottomNav from '../../components/MainComponent/BottomNav';
 import WishList from '../../components/wishlist/WishList';
+import CheckoutComponent from '../../components/Checkout/CheckoutComponent';
 import { responsiveHeight, responsiveWidth, responsiveFontSize } from 'react-native-responsive-dimensions';
 import CartComponent from '../Cart/CartComponent';
+import WebViewComponent from '../WebViewComponent';
 
 
 export default class MainComponent extends React.Component{
@@ -83,7 +85,9 @@ export default class MainComponent extends React.Component{
 
         {/* <LoginScreen /> */}
 
-        {loadComponent}
+        {/* {loadComponent} */}
+        {/* <CheckoutComponent /> */}
+        <WebViewComponent />
        
 
 

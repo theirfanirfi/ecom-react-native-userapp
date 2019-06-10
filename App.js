@@ -8,6 +8,7 @@ import Product from './src/components/product/Product';
 import ChangePasswordComponent from './src/components/myaccount/ChangePasswordComponent';
 import LoginDetailsComponent from './src/components/Login/LoginDetailsComponent';
 import ProductsByCatComponent from './src/components/ProductsByCat/ProductsByCatComponent';
+import CheckoutComponent from './src/components/Checkout/CheckoutComponent';
 export default class App extends Component {
 
   render() {
@@ -25,6 +26,7 @@ const MainNavigator = createStackNavigator({
   CatProducts: {screen: ProductsByCatComponent},
   LoginDetails: {screen: LoginDetailsComponent},
   ChangePass: {screen: ChangePasswordComponent},
+  Checkout: {screen: CheckoutComponent},
   },
   {
     initialRouteName: "Home"

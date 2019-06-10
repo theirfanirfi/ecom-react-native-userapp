@@ -11,6 +11,8 @@ export default class CartToolbar extends React.Component{
     title: PropTypes.string,
   }
 
+
+
   constructor(props){
     super(props);
 }
@@ -55,6 +57,7 @@ async componentDidMount(){
       var toEncode = JSON.stringify(this.state.products);
       console.log(toEncode);
       console.log(base64.encode(toEncode));
+      this.props.navigation.navigate('Checkout');
     }
   }else {
     alert('You are not loggedin to checkout.');
