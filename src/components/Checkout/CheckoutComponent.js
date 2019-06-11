@@ -88,7 +88,9 @@ export default class CheckoutComponent extends Component {
                     },
                     body:data,
                 }).then(res => res.json())
-                .then(response => console.log(JSON.stringify(response)));
+                .then(response => {
+                    console.log(JSON.stringify(response))
+                });
     }
 
     render() {
