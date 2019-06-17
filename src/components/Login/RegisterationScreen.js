@@ -4,16 +4,17 @@ import {View,StyleSheet,Text,Platform, Image,TouchableOpacity,TextInput} from 'r
 import { responsiveHeight, responsiveWidth, responsiveFontSize } from 'react-native-responsive-dimensions';
 import PropTypes from 'prop-types';
 import Button from 'apsl-react-native-button';
-import FormInput from '../../components/Reusable/FormInput';
+import FormInput from '../Reusable/FormInput';
 import Base from '../../Lib/Base';
 import AsyncStorage from '@react-native-community/async-storage';
 import Storage from '../../Lib/Storage';
 
-export default class LoginScreen extends Component {
+export default class RegisterationScreen extends Component {
 
     state = {
-        email: 'i@i.com',
-        password: 'irfan001',
+        email: '',
+        password: '',
+        confirmpassword: '',
         isLoading: false,
         user: []
     }
@@ -27,7 +28,9 @@ export default class LoginScreen extends Component {
         this.setState({'email':text});
     }else if(which === 'password'){
         this.setState({'password':text});
-    }
+    }    else if(which === 'confirmpassword'){
+      this.setState({'confirmpassword':text});
+  }
     }
 
     async componentDidMount(){
@@ -44,8 +47,8 @@ export default class LoginScreen extends Component {
 
     }
 
-    makeLoginRequest(){
-        fetch(Base.getBaseUrl()+'login?email='+this.state.email+'&password='+this.state.password).then(res => res.json()).then(response => {
+    makeRegisterationRequest(){
+        fetch(Base.getBaseUrl()+'register?email='+this.state.email+'&password='+this.state.password+'&cpass='+this.state.confirmpassword).then(res => res.json()).then(response => {
           if(response.isError){
               alert(response.message);
           }else if(response.isLoggedIn){
@@ -75,7 +78,7 @@ export default class LoginScreen extends Component {
         }
       }
 
-    login = () => {
+    register = () => {
         // if(this.state.isLoading == false){
         // console.log(this.state.email+" : "+this.state.password+ " isloading: "+this.state.isLoading);
         // this.setState({'isLoading': true});
@@ -83,25 +86,27 @@ export default class LoginScreen extends Component {
         //     alert('Login is in process');
         // }
 
-        this.makeLoginRequest();
+        this.makeRegisterationRequest();
 
     }
-    gotoRegisterationScreen = () =>{
-        this.props.navigation.navigate('Register');
+    gotoLoginScreen = () =>{
+      this.props.navigation.navigate('Auth');
     }
 
     render() {
         return (
             <View style={styles.container}>
-                <Text style={{  color:'black',fontSize:24 }}>Login</Text>
+                <Text style={{  color:'black',fontSize:24 }}>Register</Text>
                 <FormInput placeholder="Email" callBack={this.callBack} />
                 <FormInput ispassword={true} placeholder="Password" callBack={this.callBack} />
-                <Button onPress={this.login} style={{ backgroundColor: '#34D27C', marginTop:responsiveHeight(2),width: responsiveWidth(35),alignSelf:'center',color:'#fff'}} textStyle={{fontSize: 18}}>
+                <FormInput ispassword={true} placeholder="Confirm Password" callBack={this.callBack} />
+               
+                <Button onPress={this.register} style={{ backgroundColor: '#34D27C', marginTop:responsiveHeight(2),width: responsiveWidth(35),alignSelf:'center',color:'#fff'}} textStyle={{fontSize: 18}}>
                     <Icon name="lock" type="material" iconStyle={{ color:'#fff' }}/>
-                    <Text style={{ color:'#fff' }}> Login</Text>
+                    <Text style={{ color:'#fff' }}> Register</Text>
                 </Button>
                 <TouchableOpacity>
-                <Text onPress={ this.gotoRegisterationScreen} style={{ color:'blue' }}>Don't have ID? click to Register</Text>
+                <Text onPress={ this.gotoLoginScreen} style={{ color:'blue' }}>Have ID? click to Login</Text>
                 </TouchableOpacity>
             </View>
         )

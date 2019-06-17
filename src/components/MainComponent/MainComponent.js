@@ -17,22 +17,34 @@ import CheckoutComponent from '../../components/Checkout/CheckoutComponent';
 import { responsiveHeight, responsiveWidth, responsiveFontSize } from 'react-native-responsive-dimensions';
 import CartComponent from '../Cart/CartComponent';
 import WebViewComponent from '../WebViewComponent';
+import Storage from '../../Lib/Storage';
+import Cart from '../../Lib/Cart';
+
 
 
 export default class MainComponent extends React.Component{
   constructor(props){
     super(props);
     const {navigate} = this.props.navigation;
+   this.renderHomeScreen();
   }
 
-
-  component
+  async renderHomeScreen() {
+    try {
+      await Storage.isLoggedIn(this);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  //component
   static navigationOptions = {
     header: null,
   }
 
   state = {
     activeTab: 'products',
+    user: [],
+    isLoggedIn: false,
   }
   callBack = tab => {
     this.setState({activeTab: tab});
@@ -45,8 +57,11 @@ export default class MainComponent extends React.Component{
     console.log(this.props.navigation)
   }
 
-  componentDidMount(){
+   componentDidMount(){
     //console.log(this.props.navigation)
+        // await Cart.emptyCart(this);
+        Storage.logout();
+
   }
 
   renderComponent = () => {
@@ -54,6 +69,17 @@ export default class MainComponent extends React.Component{
       return (
         <View>
         <ProductsComponent/>
+        </View>
+      )
+    }
+  }
+
+  renderBottomNav = () => {
+    if(this.state.isLoggedIn){
+      console.log('MainComponent: '+this.state.isLoggedIn);
+      return (
+        <View>
+        <BottomNav callBack={this.callBack} />       
         </View>
       )
     }
@@ -73,26 +99,14 @@ export default class MainComponent extends React.Component{
         }else if(this.state.activeTab === 'wishlist'){
           loadComponent = <WishList navigation={this.props.navigation} />
         }
+
+const ifLoggedIn = this.state.isLoggedIn ? loadComponent : <LoginScreen navigation={this.props.navigation}/>;
     return (
       <View style={{ height:'100%' }}>
-        {/* <ProductsComponent /> */}
-        {/* <Product /> */}
-        {/* <CategoriesComponent /> */}
-        {/* <ProductsByCatComponent /> */}
-        {/* <SettingsComponent /> */}
-        {/* <LoginDetailsComponent /> */}
-        {/* <ChangePasswordComponent /> */}
 
-        {/* <LoginScreen /> */}
-
-        {/* {loadComponent} */}
-        {/* <CheckoutComponent /> */}
-        <WebViewComponent />
-       
-
-
-        <BottomNav callBack={this.callBack} />
-       
+        {loadComponent}
+       {/* {this.renderBottomNav()} */}
+       <BottomNav callBack={this.callBack} />              
       </View>
     )
   }
