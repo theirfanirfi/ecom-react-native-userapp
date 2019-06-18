@@ -12,6 +12,9 @@ import CheckoutComponent from './src/components/Checkout/CheckoutComponent';
 import AuthLoadingScreen from './src/components/Login/AuthLoadingScreen';
 import RegisterationScreen from './src/components/Login/RegisterationScreen';
 import WebViewComponent from './src/components/WebViewComponent';
+import UnpaidCheckout from './src/components/Checkout/UnpaidCheckout';
+import PaidCheckout from './src/components/Checkout/PaidCheckout';
+import ProductsByUnPaidComponent from './src/components/UnPaid/ProductsByUnPaidComponent';
 //import AuthComponent from './src/components/MainComponent/AuthComponent';
 export default class App extends Component {
 
@@ -35,6 +38,9 @@ const MainNavigator = createStackNavigator({
   Checkout: {screen: CheckoutComponent},
   Main: {screen: MainComponent},
   Web: {screen: WebViewComponent},
+  UnPaidCK: {screen: UnpaidCheckout},
+  PaidCK: {screen: PaidCheckout},
+  UnPaidCKProducts: {screen: ProductsByUnPaidComponent},
   },
   {
     initialRouteName: "Home"

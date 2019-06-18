@@ -5,62 +5,39 @@ import { responsiveHeight, responsiveWidth, responsiveFontSize } from 'react-nat
 import { Icon,SearchBar } from 'react-native-elements'
 import Base from '../../Lib/Base';
 import Storage from '../../Lib/Storage';
-export default class WishList extends Component {
+export default class ProductsByUnPaidComponent extends Component {
     constructor(props){
         super(props);
         this.arrayHolder = [];
-        this.myRef = React.createRef();
-
     }
 
     state = {
         data: [],
         value: '',
         user: [],
-        isLoggedIn: false,
+        isLoggedIn: false
     }
 
 
     async componentDidMount(){
         await Storage.isLoggedIn(this);
+        if(this.state.isLoggedIn){
        let BASE_URL = Base.getBaseUrl();
-       if(this.state.isLoggedIn){
-       return fetch(BASE_URL+'user/wishlist?token='+this.state.user.token).then((response) => response.json()).then((res) => {
-           this.setState({'data': res.products});
-           //console.log(res.products);
-           this.arrayHolder = res.products;
+       let ck_id = this.props.navigation.getParam('ck_id');
+       return fetch(BASE_URL+'unpaidpro?token='+this.state.user.token+'&ckid='+ck_id).then((response) => response.json()).then((res) => {
+           this.setState({'data': res.products},()=> {
+            console.log(this.state.data);
+           });
+          // this.arrayHolder = res.products;
        });
     }else {
-        alert('You are not logged in to perform this action.');
+        alert('You are not logged in.');
     }
     }
 
- 
-
-    async addToWhishList(product) {
-        let BASE_URL = Base.getBaseUrl();
-        if(this.state.isLoggedIn){
-        return fetch(BASE_URL+'user/addtowishlist?token='+this.state.user.token+'&pid='+product).then((response) => response.json()).then((res) => {
-            if(res.isError){
-                alert(res.message);
-            }else if(res.isAdded){
-                alert(res.message);
-                this.setState({
-                    data: res.products
-                });
-            }else if(res.isDeleted){
-              alert(res.message);
-              this.setState({
-                data: res.products
-            });
-            }
-        });
-     }else {
-         alert('You are not logged in to perform this action.');
-     }
+    addToWhishList = product => {
+        console.log("Product id: "+product);
     }
-
-
 
 
     seachProducts = text => {
@@ -69,6 +46,7 @@ export default class WishList extends Component {
             const pro = `${item.product_name.toUpperCase()}`;
             const textData = text.toUpperCase();
              return pro.indexOf(textData) > -1; 
+
         });
         this.setState({value: text});
 
@@ -77,23 +55,11 @@ export default class WishList extends Component {
         });
       }
 
-      renderIconMode = (isFav) => {
-        //   if(this.state.i)
-        if(this.state.isLoggedIn && isFav === 'true'){
-         console.log('else item is : '+isFav);
-            return true;
-        }else {
-         console.log('else item is : '+isFav);
-            return false;
-        }
- 
- 
-       }
 
-       renderWishList(){
-           return (
-               <View>
-                   
+    render() {
+
+        return (
+
                 <FlatList
                 data={this.state.data}
                 renderItem={({ item,index }) => {
@@ -106,12 +72,11 @@ export default class WishList extends Component {
                     <Text style={style.pricing}>${item.product_price} </Text>
 
                     <Icon 
-                   name='favorite'
+                    name='favorite-border'
                     type='material'
-                    iconStyle={{flex:1,alignSelf: 'flex-end',marginRight: 12,color: 'red', }}
+                    iconStyle={{flex:1,alignSelf: 'flex-end',marginRight: 12 }}
                     size={responsiveWidth(6)}
                     onPress={() => this.addToWhishList(item.product_id)}
-                    ref={this.myRef}
                     />
 
                     </View>
@@ -125,38 +90,19 @@ export default class WishList extends Component {
                 }}
                 numColumns={2}
                 keyExtractor={(item, index) => index.toString()}
-                ListHeaderComponent={() => {
-                    return (
-                    <SearchBar
-                    placeholder="Search..."
-                    lightTheme
-                    onChangeText={text => this.seachProducts(text)}
-                    autoCorrect={false}
-                    value={this.state.value}
-                    />
-                    )
-                }}
-                style={{ marginBottom:responsiveHeight(10), }}
+                // ListHeaderComponent={() => {
+                //     return (
+                //     <SearchBar
+                //     placeholder="Type Here..."
+                //     lightTheme
+                //     onChangeText={text => this.seachProducts(text)}
+                //     autoCorrect={false}
+                //     value={this.state.value}
+                //     />
+                //     )
+                // }}
                 />
-               </View>
-           )
-       }
 
-       renderEmptyWishListMessage(){
-           if(this.state.data == null){
-            return (<View style={{ justifyContent:'center',alignContent:'center',alignItems:'center',height:'100%'  }}><Text style={{ fontSize:24, alignSelf:'center' }}>You WishList is empty.</Text></View>)
-        
-           }else {
-               return this.renderWishList();
-           }
-    }
-
-    render() {
-
-        return (
-            <View>
-                {this.renderEmptyWishListMessage()}
-            </View>
         )
     }
 }

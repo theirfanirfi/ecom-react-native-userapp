@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import {View,StyleSheet,Text,Platform, Image,FlatList,TouchableOpacity} from 'react-native';
+import {View,StyleSheet,Text,Platform, Image,FlatList,TouchableOpacity, BackHandler} from 'react-native';
 import PropTypes from 'prop-types';
 import { responsiveHeight, responsiveWidth, responsiveFontSize } from 'react-native-responsive-dimensions';
 import { Icon,SearchBar } from 'react-native-elements'
@@ -14,6 +14,7 @@ export default class CartComponent extends Component {
         this.arrayHolder = [];
 
         this.myRef = React.createRef();
+        this.backHandler;
     }
 
     state = {
@@ -29,9 +30,20 @@ export default class CartComponent extends Component {
 
 
     async componentDidMount(){
+        //this.backHandler = BackHandler.addEventListener('hardwareBackPress', this.handleBackPress);
        await Storage.isLoggedIn(this);    
        //await Cart.emptyCart(this);
        await Storage.returnCart(this);  
+    }
+
+    handleBackPress = () => {
+        console.log('back pressed');
+        this.props.navigation.goBack();
+        return true;
+    }
+
+    componentWillUnmount(){
+       // BackHandler.removeEventListener('hardwareBackPress',this.handleBackPress);
     }
 
     async removeFromCart(product_id) {
@@ -57,8 +69,7 @@ export default class CartComponent extends Component {
 
       renderEmptyCartMessage = () =>{
           if(this.state.products.length == 0){
-              console.log('cart is empty');
-              return (<View style={{ justifyContent:'center',alignContent:'center',alignItems:'center',height:'100%'  }}><Text style={{ fontSize:24, alignSelf:'center' }}>You cart is empty.</Text></View>)
+              return (<View style={{ justifyContent:'center',alignContent:'center',alignItems:'center',height:'80%'  }}><Text style={{ fontSize:24, alignSelf:'center' }}>You cart is empty.</Text></View>)
           }else {
               return this.renderCart();
           }

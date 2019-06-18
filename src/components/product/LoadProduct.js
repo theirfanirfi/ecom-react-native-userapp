@@ -39,9 +39,7 @@ export default class LoadProduct extends Component {
                 console.log('is ref: '+context.name);
                // alert(res.message);
             }else if(res.isDeleted){
-
-
-                console.log('is ref: '+context.name);
+             console.log('is ref: '+context.name);
 //                alert(res.message);
 
             }

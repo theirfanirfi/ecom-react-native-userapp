@@ -40,9 +40,11 @@ export default class SettingsComponent extends Component {
             this.props.navigation.push('ChangePass');
 
         }else if(which === 'Paid checkouts'){
+            this.props.navigation.push('PaidCk');
 
         }
         else if(which === 'Unpaid checkouts'){
+            this.props.navigation.push('UnPaidCK');
 
         }
     }
