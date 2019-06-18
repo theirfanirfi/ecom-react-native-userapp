@@ -5,10 +5,11 @@ export default {
    async isLoggedIn(context){
       let isLoggedIn = await AsyncStorage.getItem('@user').then(item => {
           if(item !== null){
-            //   let user = JSON.parse(item);
+               let user = JSON.parse(item);
+               console.log(JSON.stringify(user));
             //   return user;
             context.setState({'isLoggedIn': true}, () => {
-               context.setState({'user': JSON.parse(item)});
+               context.setState({'user': user});
             });
             return true;
           }else {
@@ -18,11 +19,15 @@ export default {
       });  
     },
 
-    async logout(){
+    async logout(context){
         try{
             await AsyncStorage.removeItem('@user');
+            context.setState({'isLoggedOut': true});
+            context.props.navigation.navigate('Auth');
             return true;
         }catch(e){
+            context.setState({'isLoggedOut': false});
+            alert(e);
             console.log(e);
             return false;
         }
@@ -42,11 +47,17 @@ export default {
 
     async returnCart(context){
         try {
-            await AsyncStorage.getItem('@cart').then(item => JSON.parse(item))
-            .then(res => {
-                context.setState({
-                    'products': res,
-                });
+            await AsyncStorage.getItem('@cart').then(item => {
+                if(item != null){
+                    console.log('not null');
+                    context.setState({
+                        'products': JSON.parse(item),
+                    });
+                }else {
+                    console.log(' null');
+
+                }
+            
             });
             
         } catch (error) {

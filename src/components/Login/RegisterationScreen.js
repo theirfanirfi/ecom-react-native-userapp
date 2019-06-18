@@ -12,6 +12,7 @@ import Storage from '../../Lib/Storage';
 export default class RegisterationScreen extends Component {
 
     state = {
+        fullname: '',
         email: '',
         password: '',
         confirmpassword: '',
@@ -28,35 +29,25 @@ export default class RegisterationScreen extends Component {
         this.setState({'email':text});
     }else if(which === 'password'){
         this.setState({'password':text});
-    }    else if(which === 'confirmpassword'){
+    }else if(which === 'confirmpassword'){
       this.setState({'confirmpassword':text});
-  }
+    }else if(which === 'fullname'){
+      this.setState({'fullname':text});
+    }
     }
 
     async componentDidMount(){
-        // try{
-        //     let u = await AsyncStorage.getItem('@user');
-        //     let ju = JSON.parse(u);
-        //     console.log(ju.token);
-        // }catch(e){
-        //     console.log(e);
-
-        // }
-
-        //Storage.logout();
-
     }
 
     makeRegisterationRequest(){
-        fetch(Base.getBaseUrl()+'register?email='+this.state.email+'&password='+this.state.password+'&cpass='+this.state.confirmpassword).then(res => res.json()).then(response => {
+        fetch(Base.getBaseUrl()+'register?email='+this.state.email+'&password='+this.state.password+'&cpass='+this.state.confirmpassword+'&name='+this.state.fullname).then(res => res.json()).then(response => {
           if(response.isError){
               alert(response.message);
-          }else if(response.isLoggedIn){
+          }else if(response.isRegistered){
             this.setState({'user': response.user},() => {
               this.storeData();
               //  alert(this.state.user.name);
               console.log('saved');
-              this.props.navigation.navigate('Main');
 
             });
 
@@ -71,25 +62,17 @@ export default class RegisterationScreen extends Component {
           await AsyncStorage.setItem('@user', JSON.stringify(this.state.user));
           await AsyncStorage.setItem('@username', this.state.user.name);
           await AsyncStorage.setItem('@token', this.state.user.token);
+          this.props.navigation.navigate('Main');
         } catch (e) {
-          // saving error
           console.log(e);
           alert('Error occurred in saving the loggedin user. Please try again.');
         }
       }
 
     register = () => {
-        // if(this.state.isLoading == false){
-        // console.log(this.state.email+" : "+this.state.password+ " isloading: "+this.state.isLoading);
-        // this.setState({'isLoading': true});
-        // }else {
-        //     alert('Login is in process');
-        // }
-
         this.makeRegisterationRequest();
-
     }
-    gotoLoginScreen = () =>{
+    gotoLoginScreen = () => {
       this.props.navigation.navigate('Auth');
     }
 
@@ -97,6 +80,7 @@ export default class RegisterationScreen extends Component {
         return (
             <View style={styles.container}>
                 <Text style={{  color:'black',fontSize:24 }}>Register</Text>
+                <FormInput placeholder="Full Name" callBack={this.callBack} />
                 <FormInput placeholder="Email" callBack={this.callBack} />
                 <FormInput ispassword={true} placeholder="Password" callBack={this.callBack} />
                 <FormInput ispassword={true} placeholder="Confirm Password" callBack={this.callBack} />

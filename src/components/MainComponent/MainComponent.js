@@ -54,13 +54,13 @@ export default class MainComponent extends React.Component{
   navigationCallBackForProduct(product_id){
     console.log(product_id);
     //this.props.navigation.navigate('Product');
-    console.log(this.props.navigation)
+
   }
 
    componentDidMount(){
     //console.log(this.props.navigation)
         // await Cart.emptyCart(this);
-        Storage.logout();
+        //Storage.logout();
 
   }
 
@@ -74,16 +74,6 @@ export default class MainComponent extends React.Component{
     }
   }
 
-  renderBottomNav = () => {
-    if(this.state.isLoggedIn){
-      console.log('MainComponent: '+this.state.isLoggedIn);
-      return (
-        <View>
-        <BottomNav callBack={this.callBack} />       
-        </View>
-      )
-    }
-  }
   render () {
 
         const osBasedToolbar = Platform.OS === 'android' ? <MainToolbar /> : <MainToolbar/>;
@@ -100,12 +90,10 @@ export default class MainComponent extends React.Component{
           loadComponent = <WishList navigation={this.props.navigation} />
         }
 
-const ifLoggedIn = this.state.isLoggedIn ? loadComponent : <LoginScreen navigation={this.props.navigation}/>;
     return (
       <View style={{ height:'100%' }}>
 
         {loadComponent}
-       {/* {this.renderBottomNav()} */}
        <BottomNav callBack={this.callBack} />              
       </View>
     )

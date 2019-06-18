@@ -19,7 +19,7 @@ export default class SettingsComponent extends Component {
         },
     ]
     render() {
-        const osBasedToolbar = Platform.OS === 'android' ? <MainToolbar title="My account" /> : <MainToolbar title="My account"/>;
+        const osBasedToolbar = Platform.OS === 'android' ? <MainToolbar title="My account" navigation={this.props.navigation} /> : <MainToolbar title="My account" navigation={this.props.navigation}/>;
         return (
             <View>
                 {osBasedToolbar}

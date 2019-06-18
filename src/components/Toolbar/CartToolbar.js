@@ -49,14 +49,14 @@ async componentDidMount(){
 
 
   onActionSelected = position => {
-  if (position === 0) { // index of 'Settings'
+  if (position === 0) { // index of 'Checkout'
   if(this.state.isLoggedIn){
     if(this.state.products.length == 0){
     alert('Your cart is empty');
     }else {
       var toEncode = JSON.stringify(this.state.products);
-      console.log(toEncode);
       console.log(base64.encode(toEncode));
+
       this.props.navigation.navigate('Checkout');
     }
   }else {

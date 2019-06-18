@@ -54,7 +54,6 @@ export default class LoginScreen extends Component {
               //  alert(this.state.user.name);
               console.log('saved');
               this.props.navigation.navigate('Main');
-
             });
 
 

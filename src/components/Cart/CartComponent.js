@@ -55,7 +55,7 @@ export default class CartComponent extends Component {
         });
       }
 
-      renderEmptyCartMessage(){
+      renderEmptyCartMessage = () =>{
           if(this.state.products.length == 0){
               console.log('cart is empty');
               return (<View style={{ justifyContent:'center',alignContent:'center',alignItems:'center',height:'100%'  }}><Text style={{ fontSize:24, alignSelf:'center' }}>You cart is empty.</Text></View>)

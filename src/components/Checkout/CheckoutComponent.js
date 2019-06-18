@@ -13,13 +13,13 @@ import Base from '../../Lib/Base';
 import base64 from 'react-native-base64'
 export default class CheckoutComponent extends Component {
     state = {
-        fullname: '',
-        company: '',
-        address: '',
-        town: '',
-        postalcode: '',
-        email: '',
-        phone: '',
+        fullname: '1234',
+        company: '1234',
+        address: '1234',
+        town: '1234',
+        postalcode: '1234',
+        email: '1234',
+        phone: '1234',
         isLoggedIn: false,
         user: [],
         products: []
@@ -89,7 +89,16 @@ export default class CheckoutComponent extends Component {
                     body:data,
                 }).then(res => res.json())
                 .then(response => {
-                    console.log(JSON.stringify(response))
+                   // console.log(JSON.stringify(response))
+                   if(response.isError){
+                       alert(response.message);
+                   }else if(response.isCartSaved){
+                       var checkout_id = response.ck.id;
+                       Cart.emptyCart(this);
+                       this.props.navigation.navigate('Web',{'checkout_id' : checkout_id});
+                   }else {
+                       alert(response.message);
+                   }
                 });
     }
 

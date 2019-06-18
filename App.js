@@ -11,6 +11,7 @@ import ProductsByCatComponent from './src/components/ProductsByCat/ProductsByCat
 import CheckoutComponent from './src/components/Checkout/CheckoutComponent';
 import AuthLoadingScreen from './src/components/Login/AuthLoadingScreen';
 import RegisterationScreen from './src/components/Login/RegisterationScreen';
+import WebViewComponent from './src/components/WebViewComponent';
 //import AuthComponent from './src/components/MainComponent/AuthComponent';
 export default class App extends Component {
 
@@ -33,6 +34,7 @@ const MainNavigator = createStackNavigator({
   ChangePass: {screen: ChangePasswordComponent},
   Checkout: {screen: CheckoutComponent},
   Main: {screen: MainComponent},
+  Web: {screen: WebViewComponent},
   },
   {
     initialRouteName: "Home"

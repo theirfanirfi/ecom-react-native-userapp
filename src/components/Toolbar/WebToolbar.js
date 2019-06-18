@@ -2,20 +2,24 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import {ToolbarAndroid,StyleSheet, View} from 'react-native';
 import Storage from '../../Lib/Storage';
-export default class MainToolbar extends React.Component{
-  static propTypes = {
-    title: PropTypes.string,
-  }
+export default class WebToolbar extends React.Component{
+
 
   constructor(props){
     super(props);
-}
+  }
 
 state = {
   'isLoggedOut': false,
 }
+static propTypes = {
+  title: PropTypes.string,
+  resCallBack: PropTypes.func.isRequired,
+}
 
-
+returnResToWebReload = (which) => {
+  this.props.resCallBack(which);
+}
   render () {
 
     return (
@@ -23,7 +27,9 @@ state = {
         <ToolbarAndroid
        // logo={require('./app_logo.png')}
         title={this.props.title}
-        actions={[{title: 'Logout', show: 'always'}]}
+        actions={[{title: 'Done', show: 'always'},
+      {title: 'Redo', show: 'always'}
+      ]}
         style={style.toolbar}
         onActionSelected={this.onActionSelected}
         />
@@ -36,10 +42,9 @@ state = {
 
   onActionSelected = position => {
   if (position === 0) { // index of 'Settings'
-  Storage.logout(this);
-  // if(Storage.logout(this) && this.state.isLoggedOut){
-  //  // this.props.navigation.navigate('Auth');
-  // }
+  this.returnResToWebReload('done');
+  }else if(position === 1){
+    this.returnResToWebReload('reload');
   }
 }
 

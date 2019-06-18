@@ -64,6 +64,7 @@ export default {
     async emptyCart(context){
         try {
         await AsyncStorage.removeItem('@cart');
+        return true;
         } catch (error) {
             return false;
         }

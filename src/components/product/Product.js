@@ -10,6 +10,7 @@ import Button from 'apsl-react-native-button'
 
 export default class Product extends Component {
     state = {
+        product_name: 'Product',
         product: {
             // product_id: '',
             // product_name: '',
@@ -19,14 +20,14 @@ export default class Product extends Component {
     }
 
     static navigationOptions = {
-        headerTitle: "Product",
-        headerRight: (
-          <Button
-            onPress={() => alert('This is a button!')}
-            title="Info"
-            color="#000"
-          >working</Button>
-        ),
+        headerTitle: 'Product',
+        // headerRight: (
+        //   <Button
+        //     onPress={() => alert('This is a button!')}
+        //     title="Info"
+        //     color="#000"
+        //   >working</Button>
+        // ),
       }
 
     async componentDidMount(){
