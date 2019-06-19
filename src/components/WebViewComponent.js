@@ -37,7 +37,7 @@ export default class WebViewComponent extends Component {
         if(which === 'reload'){
             this.setState({'key': this.state.key + 1});
         }else if(which === 'done'){
-            this.props.navigation.goBack('Main');
+            this.props.navigation.goBack(null);
         }
     }
 

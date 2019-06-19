@@ -11,9 +11,7 @@ export default class ProductsByUnPaidComponent extends Component {
         super(props);
         this.arrayHolder = [];
     }
-    static navigationOptions = {
-        header: null,
-    }
+
 
     state = {
         data: [],
@@ -68,7 +66,6 @@ export default class ProductsByUnPaidComponent extends Component {
 
         return (
             <View>
-            <UnPaidCheckoutToolbar checkout_id={this.state.checkout_id} navigation={this.props.navigation} />
                 <FlatList
                 data={this.state.data}
                 renderItem={({ item,index }) => {
