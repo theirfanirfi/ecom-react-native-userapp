@@ -94,6 +94,7 @@ export default class LoadProduct extends Component {
 
                     <Text style={{  alignSelf: 'flex-start' }} style={style.pricing}>Stock: {this.props.product.available} </Text>
 
+                    <Text style={{  alignSelf: 'flex-start', padding:12,textAlign: "justify" }} > {this.props.product.product_desc} </Text>
                     <NumericInput 
                     containerStyle={{ alignSelf:'center',marginTop:responsiveHeight(2) }}
                     value={this.state.numberOfProducts} 

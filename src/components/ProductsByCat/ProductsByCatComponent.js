@@ -46,6 +46,23 @@ export default class ProductsByCatComponent extends Component {
         });
       }
 
+      returnDescription(desc){
+        if( desc == null){
+            console.log("description is null")
+        }else {
+            if(desc.length < 100){
+            return (
+<Text style={{ margin:4 }}>{desc}</Text>
+              
+            )
+        }else if(desc.length > 100){
+            return (
+              <Text style={{ margin:4, textAlign:'justify'}}>{desc.substr(0,100)+'...'}</Text>
+            )
+        }
+      }
+    }
+
 
     render() {
 
@@ -72,7 +89,7 @@ export default class ProductsByCatComponent extends Component {
 
                     </View>
 
-                    <Text style={{ margin:4 }}>This is description of the product. you can read it any time whenever you want.</Text>
+                    {this.returnDescription(item.product_desc)}
                     </View>
                     </TouchableOpacity>
 

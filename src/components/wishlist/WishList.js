@@ -104,7 +104,7 @@ export default class WishList extends Component {
                      <Text style={style.product_title}>{item.product_name}</Text>
                      <View style={{ flex:1,flexDirection: 'row', justifyContent: 'space-between' }} >
                     <Text style={style.pricing}>${item.product_price} </Text>
-
+                    
                     <Icon 
                    name='favorite'
                     type='material'
@@ -115,9 +115,8 @@ export default class WishList extends Component {
                     />
 
                     </View>
-
-                    <Text style={{ margin:4 }}>This is description of the product. you can read it any time whenever you want.</Text>
-                    </View>
+                 {this.returnDescription(item.product_desc)}
+                     </View>
                     </TouchableOpacity>
 
                     )
@@ -149,6 +148,22 @@ export default class WishList extends Component {
            }else {
                return this.renderWishList();
            }
+    }
+    returnDescription(desc){
+        if( desc == null){
+            console.log("description is null")
+        }else {
+            if(desc.length < 100){
+            return (
+<Text style={{ margin:4 }}>{desc}</Text>
+              
+            )
+        }else if(desc.length > 100){
+            return (
+              <Text style={{ margin:4, textAlign:'justify'}}>{desc.substr(0,100)+'...'}</Text>
+            )
+        }
+      }
     }
 
     render() {

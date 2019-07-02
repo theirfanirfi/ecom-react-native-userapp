@@ -6,6 +6,7 @@ import { Icon,SearchBar } from 'react-native-elements'
 import Base from '../../Lib/Base';
 import Storage from '../../Lib/Storage';
 import UnPaidCheckoutToolbar from '../Toolbar/UnPaidCheckoutToolbar';
+
 export default class ProductsByUnPaidComponent extends Component {
     constructor(props){
         super(props);
@@ -28,7 +29,7 @@ export default class ProductsByUnPaidComponent extends Component {
        let BASE_URL = Base.getBaseUrl();
        let ck_id = this.props.navigation.getParam('ck_id');
        this.setState({'checkout_id': ck_id});
-       return fetch(BASE_URL+'user/unpaidpro?token='+this.state.user.token+'&ckid='+ck_id).then((response) => response.json())
+       return fetch(BASE_URL+'user/paidpro?token='+this.state.user.token+'&ckid='+ck_id).then((response) => response.json())
        
        .then((res) => {
            this.setState({'data': res.products},()=> {
