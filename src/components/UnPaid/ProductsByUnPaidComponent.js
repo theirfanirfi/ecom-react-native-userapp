@@ -6,6 +6,7 @@ import { Icon,SearchBar } from 'react-native-elements'
 import Base from '../../Lib/Base';
 import Storage from '../../Lib/Storage';
 import UnPaidCheckoutToolbar from '../Toolbar/UnPaidCheckoutToolbar';
+import UnPaidCheckoutToolbariOS from '../Toolbar/UnPaidCheckoutToolbariOS';
 export default class ProductsByUnPaidComponent extends Component {
     constructor(props){
         super(props);
@@ -65,11 +66,12 @@ export default class ProductsByUnPaidComponent extends Component {
 
 
     render() {
-
+        const toolbar = Platform.OS === 'android' ? <UnPaidCheckoutToolbar checkout_id={this.state.checkout_id} navigation={this.props.navigation} /> : <UnPaidCheckoutToolbariOS checkout_id={this.state.checkout_id} navigation={this.props.navigation} />;
+            
         return (
             <View>
-            <UnPaidCheckoutToolbar checkout_id={this.state.checkout_id} navigation={this.props.navigation} />
-                <FlatList
+                {toolbar}
+            <FlatList
                 data={this.state.data}
                 renderItem={({ item,index }) => {
                     return (

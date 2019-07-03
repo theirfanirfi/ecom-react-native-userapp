@@ -73,6 +73,7 @@ export default class WebViewComponent extends Component {
                 <View style={{ width:'100%',height:'100%' }}>
                     {toolbar}
                 <WebView 
+               originWhitelist={['*']}
                 key={this.state.key}
                 source={{ uri: this.weburl }}  style={{ width:'100%',height:'100%' }} onLoad={this.onLoad} onLoadStart={this.loadStarted} onLoadEnd={this.loadEnded} >
                 </WebView>

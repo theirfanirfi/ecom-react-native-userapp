@@ -26,23 +26,15 @@ returnResToWebReload = (which) => {
 
     return (
       <View>
-        <ToolbarAndroid
-       // logo={require('./app_logo.png')}
-        title={this.props.title}
-        actions={[{title: 'Done', show: 'always'},
-      {title: 'Redo', show: 'always'}
-      ]}
-        style={style.toolbar}
-        onActionSelected={this.onActionSelected}
-        />
-
 <XBar
         
         slots={[
           { children : <Text style={{fontSize:20}}>{this.props.title}</Text> },
+          {children: <Text></Text>},
+          {children: <Text></Text>},
           { children : 
             <TouchableOpacity style={{marginRight:8}}>
-            <Button style={{borderWidth: -2,}} onPress={() => this.checkout()}>
+            <Button style={{borderWidth: -2,}} onPress={() => this.action(0)}>
               <Text>Done</Text> 
             </Button>
             </TouchableOpacity>  
@@ -50,7 +42,7 @@ returnResToWebReload = (which) => {
           { children : <Text></Text> },
           { children : 
           <TouchableOpacity style={{marginRight:8}}>
-          <Button style={{borderWidth: -2,}} onPress={() => this.checkout()}>
+          <Button style={{borderWidth: -2,}} onPress={() => this.action(1)}>
             <Text>Redo</Text> 
           </Button>
           </TouchableOpacity>
@@ -67,7 +59,7 @@ returnResToWebReload = (which) => {
   }
 
 
-  onActionSelected = position => {
+  action = position => {
   if (position === 0) { // index of 'Settings'
   this.returnResToWebReload('done');
   }else if(position === 1){
