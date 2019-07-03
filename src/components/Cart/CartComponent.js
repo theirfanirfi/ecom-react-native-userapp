@@ -8,6 +8,7 @@ import Storage from '../../Lib/Storage';
 import Cart from '../../Lib/Cart';
 import base64 from 'react-native-base64'
 import CartToolbar from '../Toolbar/CartToolbar';
+import CartToolbarIOS from '../Toolbar/CartToolbarIOS';
 export default class CartComponent extends Component {
     constructor(props){
         super(props);
@@ -127,7 +128,7 @@ export default class CartComponent extends Component {
 
 
     render() {
-        const toolbar = Platform.OS === 'android' ? <CartToolbar title='Cart' navigation={this.props.navigation} /> : <CartToolbar title='Cart' navigation={this.props.navigation} />;
+        const toolbar = Platform.OS === 'android' ? <CartToolbar title='Cart' navigation={this.props.navigation} /> : <CartToolbarIOS title='Cart' navigation={this.props.navigation} />;
         return (
             <View>
                 {toolbar}

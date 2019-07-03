@@ -1,7 +1,9 @@
 import React, { Component } from 'react'
 import {View,StyleSheet,Text,FlatList,Platform,TouchableOpacity} from 'react-native';
 import MainToolbar from '../Toolbar/MainToolbar';
+import IOSToolbar from '../Toolbar/IOSToolbar';
 import { Icon } from 'react-native-elements'
+
 import { responsiveHeight, responsiveWidth, responsiveFontSize } from 'react-native-responsive-dimensions';
 export default class SettingsComponent extends Component {
     settings = [
@@ -18,11 +20,12 @@ export default class SettingsComponent extends Component {
             'key': 'Unpaid checkouts',
         },
     ]
+
     render() {
-        const osBasedToolbar = Platform.OS === 'android' ? <MainToolbar title="My account" navigation={this.props.navigation} /> : <MainToolbar title="My account" navigation={this.props.navigation}/>;
+        const osBasedToolbar = Platform.OS === 'android' ? <MainToolbar title="My account" navigation={this.props.navigation} /> : <IOSToolbar title="My account" navigation={this.props.navigation}/>;
         return (
             <View>
-                {osBasedToolbar}
+             {osBasedToolbar}
             <FlatList
             data={this.settings}
             renderItem={this.renderItem}

@@ -8,6 +8,7 @@ import NumericInput from 'react-native-numeric-input'
 import Cart from '../../Lib/Cart';
 import AsyncStorage from '@react-native-community/async-storage';
 import Base from '../../Lib/Base';
+import { ScrollView } from 'react-native-gesture-handler';
 
 export default class LoadProduct extends Component {
     constructor(props){
@@ -75,7 +76,7 @@ export default class LoadProduct extends Component {
 
     render() {
         return (
-
+            <ScrollView>
             <View style={{ flex:1,flexDirection: 'column' }}>
             <Image source={{  uri: this.props.product.product_image}} style={style.image}/>
             <Text style={style.product_title}>{this.props.product.product_name}</Text>
@@ -92,9 +93,9 @@ export default class LoadProduct extends Component {
                     />
             </TouchableOpacity>
 
-                    <Text style={{  alignSelf: 'flex-start' }} style={style.pricing}>Stock: {this.props.product.available} </Text>
+                    <Text style={{  alignSelf: 'flex-start',margin:6 }} style={style.pricing}>Stock: {this.props.product.available} </Text>
 
-                    <Text style={{  alignSelf: 'flex-start', padding:12,textAlign: "justify" }} > {this.props.product.product_desc} </Text>
+                    <Text style={{  padding:12,textAlign: "justify", }} > {this.props.product.product_desc} </Text>
                     <NumericInput 
                     containerStyle={{ alignSelf:'center',marginTop:responsiveHeight(2) }}
                     value={this.state.numberOfProducts} 
@@ -119,6 +120,7 @@ export default class LoadProduct extends Component {
 
 
            </View>
+           </ScrollView>
         )
     }
 }

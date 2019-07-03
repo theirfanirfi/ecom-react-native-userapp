@@ -113,7 +113,13 @@ export default class ProductsComponent extends Component {
           }
         }
       }
-
+returnHeight(){
+    if(Platform.OS === 'ios'){
+        return responsiveHeight(5);
+    }else {
+        return responsiveHeight(1);
+    }
+}
     render() {
         // const {navigate} = this.props.navigation;
         return (
@@ -162,7 +168,7 @@ export default class ProductsComponent extends Component {
                     />
                     )
                 }}
-                style={{ marginBottom:responsiveHeight(10), }}
+                style={{ marginBottom:responsiveHeight(10), marginTop: this.returnHeight()}}
                 />
 
         )

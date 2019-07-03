@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import {View,Text, Dimensions} from 'react-native';
+import {View,Text, Dimensions,Platform} from 'react-native';
 import { WebView }from 'react-native-webview';
 import PropTypes from 'prop-types';
 import * as Progress from 'react-native-progress';
@@ -7,6 +7,7 @@ import Base from '../Lib/Base';
 import Storage from '../Lib/Storage';
 import base64 from 'react-native-base64'
 import WebToolbar from './Toolbar/WebToolbar';
+import WebToolbariOS from './Toolbar/WebToolbariOS';
 
 export default class WebViewComponent extends Component {
     constructor(props){
@@ -64,12 +65,13 @@ export default class WebViewComponent extends Component {
          console.log(this.weburl);
     }
     render() {
+        const toolbar = Platform.OS === 'android' ? <WebToolbar title="Pay" resCallBack={this.toolbarCallBack} />  : <WebToolbariOS title="Pay" resCallBack={this.toolbarCallBack} />;           
+                
         return (
             <View style={{ flex:1,justifyContent:'center',alignContent:'center',width:'100%',height:'100%' }}>
                 <Progress.Bar height={this.state.height} indeterminate={this.state.indeterminate} animated={this.state.animated} style={{  width:'100%', }} />
                 <View style={{ width:'100%',height:'100%' }}>
-                <WebToolbar title="Pay" resCallBack={this.toolbarCallBack} />             
-
+                    {toolbar}
                 <WebView 
                 key={this.state.key}
                 source={{ uri: this.weburl }}  style={{ width:'100%',height:'100%' }} onLoad={this.onLoad} onLoadStart={this.loadStarted} onLoadEnd={this.loadEnded} >

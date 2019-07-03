@@ -60,6 +60,14 @@ export default class WishList extends Component {
      }
     }
 
+    returnHeight(){
+        if(Platform.OS === 'ios'){
+            return responsiveHeight(5);
+        }else {
+            return responsiveHeight(1);
+        }
+    }
+
 
 
 
@@ -135,7 +143,7 @@ export default class WishList extends Component {
                     />
                     )
                 }}
-                style={{ marginBottom:responsiveHeight(10), }}
+                style={{ marginBottom:responsiveHeight(10), marginTop: this.returnHeight() }}
                 />
                </View>
            )

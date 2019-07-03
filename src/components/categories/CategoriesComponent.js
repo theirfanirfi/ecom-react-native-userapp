@@ -34,6 +34,14 @@ export default class CategoriesComponent extends Component {
         this.setState({categories: searchedData});
     }
 
+    returnHeight(){
+        if(Platform.OS === 'ios'){
+            return responsiveHeight(5);
+        }else {
+            return responsiveHeight(1);
+        }
+    }
+
     render() {
         return (
             <FlatList
@@ -64,7 +72,7 @@ export default class CategoriesComponent extends Component {
                 />
                 )
             }}
-            style={{ marginBottom:responsiveHeight(10), }}
+            style={{ marginBottom:responsiveHeight(10), marginTop:this.returnHeight()}}
 
             />
         )

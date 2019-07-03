@@ -14,6 +14,10 @@ export default class ChangePasswordComponent extends Component {
         user:[],
         isLoggedIn: false,
     }
+
+    static navigationOptions = {
+        headerTitle: 'Change Password',
+    }
     
     callBack = (which,text) => {
         if(which === 'currentpassword'){
@@ -50,7 +54,6 @@ export default class ChangePasswordComponent extends Component {
 
         return (
             <View>
-                {osBasedToolbar}
                 <View style={{ justifyContent:'center', alignContent:'center' }}>
                 <FormInput ispassword={true} callBack={this.callBack} placeholder="Current Password" />
                 <FormInput ispassword={true} callBack={this.callBack} placeholder="New Password" />

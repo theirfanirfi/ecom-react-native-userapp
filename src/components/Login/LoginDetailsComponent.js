@@ -4,6 +4,7 @@ import { Icon } from 'react-native-elements'
 import { responsiveHeight, responsiveWidth, responsiveFontSize } from 'react-native-responsive-dimensions';
 import FormInput from '../Reusable/FormInput';
 import MainToolbar from '../Toolbar/MainToolbar';
+import IOSToolbar from '../Toolbar/IOSToolbar';
 import Button from 'apsl-react-native-button';
 import Storage from '../../Lib/Storage';
 import Base from '../../Lib/Base';
@@ -14,6 +15,10 @@ export default class LoginDetailsComponent extends Component {
         email: '',
         isLoggedIn: false,
         user: []
+    }
+
+    static navigationOptions = {
+        headerTitle: 'Login Details',
     }
 
     callBack = (which,text) => {
@@ -54,11 +59,11 @@ export default class LoginDetailsComponent extends Component {
     }
 
     render() {
-        const osBasedToolbar = Platform.OS === 'android' ? <MainToolbar title="Login Details" /> : <MainToolbar title="Login Details"/>;
+        const osBasedToolbar = Platform.OS === 'android' ? <MainToolbar title="Login Details" /> : <IOSToolbar title="Login Details"/>;
 
         return (
             <View>
-                {osBasedToolbar}
+                {/* {osBasedToolbar} */}
                 <View style={{ justifyContent:'center', alignContent:'center' }}>
                 <FormInput callBack={this.callBack} placeholder="Full name" value={this.state.fullname} />
                 <FormInput callBack={this.callBack} placeholder="Email" value={this.state.email} />
